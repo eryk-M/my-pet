@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
+import UserProfile from "./pages/UserProfile";
 import NavBar from "./components/NavBar";
 
 //MUI
@@ -25,9 +26,10 @@ class App extends Component {
           <div className="container">
             <Switch>
               <Route path="/" exact component={Home} />
-              <Route path="/login" exact component={Login} />
-              <Route path="/register" exact component={Register} />
-              <Route path="/profile" exact component={Profile} />
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />
+              <Route path="/profile" exact component={UserProfile} />
+              <Route path="/profile/:nickName" exact component={Profile} />
             </Switch>
           </div>
         </Router>

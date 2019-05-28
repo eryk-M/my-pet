@@ -1,4 +1,11 @@
-import { POST_USER_BEGIN, POST_USER_SUCCESS, POST_USER_FAIL } from "../types";
+import {
+  POST_USER_BEGIN,
+  POST_USER_SUCCESS,
+  POST_USER_FAIL,
+  GET_USER_SUCCESS,
+  LOGOUT_USER,
+  SET_AUTH
+} from "../types";
 
 const initialState = {
   data: {},
@@ -26,6 +33,20 @@ export default function(state = initialState, action) {
         ...state,
         loading: false,
         errors: action.payload
+      };
+    case GET_USER_SUCCESS:
+      return {
+        data: action.payload,
+        loading: false
+      };
+    case LOGOUT_USER:
+      return {
+        ...state,
+        auth: false
+      };
+    case SET_AUTH:
+      return {
+        auth: true
       };
     default:
       return state;
