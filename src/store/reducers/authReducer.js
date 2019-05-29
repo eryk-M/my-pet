@@ -4,14 +4,17 @@ import {
   POST_USER_FAIL,
   GET_USER_SUCCESS,
   LOGOUT_USER,
-  SET_AUTH
+  SET_AUTH,
+  GET_AUTHENTICATED_USER,
+  LOADING_USER
 } from "../types";
 
 const initialState = {
   data: {},
   loading: false,
   auth: false,
-  errors: {}
+  errors: {},
+  details: {}
 };
 
 export default function(state = initialState, action) {
@@ -23,6 +26,7 @@ export default function(state = initialState, action) {
       };
     case POST_USER_SUCCESS:
       return {
+        ...state,
         ...action.payload,
         auth: true,
         loading: false,
@@ -36,17 +40,31 @@ export default function(state = initialState, action) {
       };
     case GET_USER_SUCCESS:
       return {
+        ...state,
         data: action.payload,
         loading: false
       };
     case LOGOUT_USER:
       return {
         ...state,
-        auth: false
+        auth: false,
+        details: {},
+        loading: false
       };
     case SET_AUTH:
       return {
+        ...state,
         auth: true
+      };
+    case GET_AUTHENTICATED_USER:
+      return {
+        ...state,
+        ...action.payload
+      };
+    case LOADING_USER:
+      return {
+        ...state,
+        loading: true
       };
     default:
       return state;

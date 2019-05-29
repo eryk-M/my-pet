@@ -6,9 +6,23 @@ import { connect } from "react-redux";
 import { logoutUser } from "../store/actions/authActions";
 //mui
 import Button from "@material-ui/core/Button/Button";
+import Avatar from "@material-ui/core/Avatar/Avatar";
+import Typography from "@material-ui/core/Typography/Typography";
 
 const styles = theme => ({
-  ...theme
+  ...theme,
+  userName: {
+    color: "#fff",
+    textTransform: "capitalize",
+    marginLeft: 10
+  },
+  userAvatar: {
+    marginLeft: 10
+  },
+  userLink: {
+    display: "flex",
+    alignItems: "center"
+  }
 });
 
 class LoggedInLinks extends Component {
@@ -18,10 +32,11 @@ class LoggedInLinks extends Component {
     this.props.logoutUser();
   };
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
+    console.log(user.details);
     return (
       <>
-        <Button
+        {/* <Button
           variant="outlined"
           color="secondary"
           className={classes.button}
@@ -29,7 +44,7 @@ class LoggedInLinks extends Component {
           to="/profile"
         >
           Profil
-        </Button>
+        </Button> */}
         <Button
           variant="outlined"
           color="secondary"
@@ -40,16 +55,33 @@ class LoggedInLinks extends Component {
         >
           Wyloguj się
         </Button>
+        {user.details ? (
+          <Link to="/profile" className={classes.userLink}>
+            <Avatar
+              src={user.details.imageUrl}
+              className={classes.userAvatar}
+            />
+            <Typography variant="subtitle1" className={classes.userName}>
+              {user.details.firstName} {user.details.lastName}
+            </Typography>
+          </Link>
+        ) : (
+          <p style={{ color: "white" }}>Wczytywanie...</p>
+        )}
       </>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.user
+});
 
 const mapDispatchToProps = {
   logoutUser
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(withStyles(styles)(LoggedInLinks));

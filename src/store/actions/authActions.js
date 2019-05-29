@@ -4,7 +4,9 @@ import {
   POST_USER_FAIL,
   GET_USER_SUCCESS,
   LOGOUT_USER,
-  SET_AUTH
+  SET_AUTH,
+  GET_AUTHENTICATED_USER,
+  LOADING_USER
 } from "../types";
 
 import axios from "axios";
@@ -55,11 +57,27 @@ export const getUserDetails = nickName => dispatch => {
     });
 };
 
+export const getAuthUser = () => dispatch => {
+  dispatch({ type: LOADING_USER });
+  axios
+    .get("/user")
+    .then(res => {
+      dispatch({ type: GET_AUTHENTICATED_USER, payload: res.data });
+    })
+    .catch(err => {
+      console.log(err);
+      // dispatch({type: })
+    });
+};
+
 export const checkAuth = token => dispatch => {
   if (token.exp * 1000 < Date.now()) {
-    return false;
+    dispatch(logoutUser());
+    window.location.href = "/login";
   } else {
     dispatch({ type: SET_AUTH });
+    axios.defaults.headers.common["Authorization"] = token;
+    dispatch(getAuthUser());
   }
 };
 

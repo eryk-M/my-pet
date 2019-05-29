@@ -4,8 +4,15 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 import LoggedOutLinks from "./LoggedOutLinks";
 import LoggedInLinks from "./LoggedInLinks";
-import { checkAuth } from "../store/actions/authActions";
+import {
+  checkAuth,
+  getAuthUser,
+  logoutUser
+} from "../store/actions/authActions";
+import { SET_AUTH } from "../store/types";
+import store from "../store/store";
 import jwt from "jwt-decode";
+import axios from "axios";
 //logo
 import Logo from "../assets/images/pet-logo-small.png";
 //MUI
@@ -21,18 +28,19 @@ const styles = theme => ({
     // left: -80
   }
 });
-class NavBar extends Component {
-  componentDidMount() {
-    const token = localStorage.FBIdToken;
-    if (token) {
-      const decoded = jwt(token);
-
-      if (decoded !== null) {
-        this.props.checkAuth(decoded);
-      }
-    }
-    // const decoded = jwt(token);
+const token = localStorage.FBIdToken;
+if (token) {
+  const decodedToken = jwt(token);
+  if (decodedToken.exp * 1000 < Date.now()) {
+    store.dispatch(logoutUser());
+    window.location.href = "/login";
+  } else {
+    store.dispatch({ type: SET_AUTH });
+    axios.defaults.headers.common["Authorization"] = token;
+    store.dispatch(getAuthUser());
   }
+}
+class NavBar extends Component {
   render() {
     const { classes, user } = this.props;
     return (
@@ -59,7 +67,9 @@ const mapStateToProps = state => ({
   user: state.user
 });
 const mapDispatchToProps = {
-  checkAuth
+  checkAuth,
+  getAuthUser,
+  logoutUser
 };
 export default connect(
   mapStateToProps,

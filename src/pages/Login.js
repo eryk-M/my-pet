@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 import Logo from "../assets/images/pet-logo.png";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
@@ -123,7 +123,9 @@ class Login extends Component {
   }
 }
 //todo
-Login.propTypes = {};
+Login.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
 const mapStateToProps = state => ({
   user: state.user,

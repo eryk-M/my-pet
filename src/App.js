@@ -4,9 +4,9 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
-import UserProfile from "./pages/UserProfile";
+import UserProfile from "./pages/UserProfile/UserProfile";
 import NavBar from "./components/NavBar";
-
+import Main from "./pages/Main";
 //MUI
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
@@ -29,7 +29,9 @@ class App extends Component {
               <Route path="/login" component={Login} />
               <Route path="/register" component={Register} />
               <Route path="/profile" exact component={UserProfile} />
+              <Route path="/profile/password" exact component={UserProfile} />
               <Route path="/profile/:nickName" exact component={Profile} />
+              <Route path="/main" exact component={Main} />
             </Switch>
           </div>
         </Router>
