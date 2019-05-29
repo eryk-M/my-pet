@@ -6,7 +6,8 @@ import {
   LOGOUT_USER,
   SET_AUTH,
   GET_AUTHENTICATED_USER,
-  LOADING_USER
+  LOADING_USER,
+  POKA_ERRORA
 } from "../types";
 
 import axios from "axios";
@@ -100,4 +101,27 @@ export const uploadImage = formData => dispatch => {
       dispatch(getAuthUser());
     })
     .catch(err => console.log(err));
+};
+
+export const editUserDetails = details => dispatch => {
+  dispatch({ type: LOADING_USER });
+  axios
+    .post("/editUserDetails", details)
+    .then(() => {
+      dispatch(getAuthUser());
+    })
+    .catch(err => console.log(err));
+};
+//DO ZROBIENIAAAAAAAAAAAAAAAA
+
+export const changePassword = data => dispatch => {
+  axios
+    .post("/changePassword", data)
+    .then(() => {
+      console.log("wszystko git");
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({ type: POKA_ERRORA, payload: err.response.data });
+    });
 };

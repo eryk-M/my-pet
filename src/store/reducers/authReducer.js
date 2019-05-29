@@ -6,7 +6,8 @@ import {
   LOGOUT_USER,
   SET_AUTH,
   GET_AUTHENTICATED_USER,
-  LOADING_USER
+  LOADING_USER,
+  POKA_ERRORA
 } from "../types";
 
 const initialState = {
@@ -59,12 +60,18 @@ export default function(state = initialState, action) {
     case GET_AUTHENTICATED_USER:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        loading: false
       };
     case LOADING_USER:
       return {
         ...state,
         loading: true
+      };
+    case POKA_ERRORA:
+      return {
+        ...state,
+        errors: action.payload
       };
     default:
       return state;

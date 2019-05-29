@@ -1,8 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import withStyles from "@material-ui/core/styles/withStyles";
-import { getAuthUser, uploadImage } from "../../store/actions/authActions";
-
+import {
+  getAuthUser,
+  uploadImage,
+  editUserDetails
+} from "../../store/actions/authActions";
+import Loader from "../../components/UI/Loader";
 //mui
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
@@ -27,12 +31,16 @@ const styles = theme => ({
   userInfo: {
     fontSize: 16,
     marginTop: 15,
-    display: "inline-block"
+    display: "block"
     // textAlign: "left"
   },
   userInfoTextField: {
     // display: "inline-block"
     marginTop: 15
+  },
+  bigAvatar: {
+    width: 100,
+    height: 100
   }
 });
 
@@ -60,18 +68,6 @@ class EditProfile extends Component {
       });
     }
   }
-  //   componentDidUpdate() {
-  //     if (this.props.user.details.firstName !== this.state.firstName) {
-  //       this.setState({
-  //         nickName: this.props.user.details.nickName,
-  //         firstName: this.props.user.details.firstName,
-  //         lastName: this.props.user.details.lastName,
-  //         email: this.props.user.details.email,
-  //         petName: this.props.user.details.petName
-  //       });
-  //     }
-  //   }
-
   handleChange = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -87,13 +83,24 @@ class EditProfile extends Component {
     const fileInput = document.getElementById("imageInput");
     fileInput.click();
   };
+  handleFormSubmit = e => {
+    e.preventDefault();
+    const userData = {
+      firstName: this.state.firstName,
+      lastName: this.state.lastName,
+      petName: this.state.petName
+    };
+    if (userData.firstName && userData.lastName && userData.petName) {
+      this.props.editUserDetails(userData);
+    }
+  };
   render() {
-    const { classes, user } = this.props;
+    const { classes, user, loading } = this.props;
     const { nickName, firstName, lastName, email, petName } = this.state;
     return (
       <Fragment>
         <div className={classes.avatarWrapper}>
-          <Avatar src={user.details.imageUrl} className={classes.userAvatar} />
+          <Avatar src={user.details.imageUrl} className={classes.bigAvatar} />
           <Typography
             component="span"
             color="secondary"
@@ -116,56 +123,55 @@ class EditProfile extends Component {
         >
           Zmień zdjęcie profilowe
         </Button>
-        <form noValidate>
-          <div>
-            <TextField
-              name="nickName"
-              label="Pseudonim"
-              value={nickName}
-              className={classes.userInfoTextField}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div>
-            <TextField
-              name="firstName"
-              label="Imię"
-              value={firstName}
-              className={classes.userInfoTextField}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div>
-            <TextField
-              name="lastName"
-              label="Nazwisko"
-              value={lastName}
-              className={classes.userInfoTextField}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div>
-            <TextField
-              name="email"
-              label="E-mail"
-              value={email}
-              className={classes.userInfoTextField}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div>
-            <TextField
-              name="petName"
-              label="Imię peta twego"
-              value={petName}
-              className={classes.userInfoTextField}
-              onChange={this.handleChange}
-            />
-          </div>
+        <div>
+          <Typography className={classes.userInfo}>
+            Pseudonim: {nickName}
+          </Typography>
+          <Typography className={classes.userInfo}>
+            Twój adres email: {email}
+          </Typography>
+        </div>
+
+        <form noValidate onSubmit={this.handleFormSubmit} className="save-form">
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              <div>
+                <TextField
+                  name="firstName"
+                  label="Imię"
+                  value={firstName}
+                  className={classes.userInfoTextField}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div>
+                <TextField
+                  name="lastName"
+                  label="Nazwisko"
+                  value={lastName}
+                  className={classes.userInfoTextField}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div>
+                <TextField
+                  name="petName"
+                  label="Imię peta twego"
+                  value={petName}
+                  className={classes.userInfoTextField}
+                  onChange={this.handleChange}
+                />
+              </div>
+            </>
+          )}
           <Button
-            color="secondary"
+            type="submit"
             variant="contained"
+            color="primary"
             className={classes.loginButton}
+            disabled={loading}
           >
             Zapisz
           </Button>
@@ -176,11 +182,13 @@ class EditProfile extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  loading: state.user.loading
 });
 const mapDispatchToProps = {
   getAuthUser,
-  uploadImage
+  uploadImage,
+  editUserDetails
 };
 export default connect(
   mapStateToProps,
