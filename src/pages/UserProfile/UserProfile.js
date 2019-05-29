@@ -15,7 +15,7 @@ import Grid from "@material-ui/core/Grid/Grid";
 const styles = theme => ({
   ...theme,
   cardUser: {
-    width: "70%",
+    maxWidth: 768,
     margin: "100px auto 0"
   },
   navGrid: {

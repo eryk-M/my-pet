@@ -8,7 +8,10 @@ import { logoutUser } from "../store/actions/authActions";
 import Button from "@material-ui/core/Button/Button";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import Typography from "@material-ui/core/Typography/Typography";
-
+import Tooltip from "@material-ui/core/Tooltip";
+//icon
+import Input from "@material-ui/icons/InputRounded";
+import Notifications from "@material-ui/icons/NotificationsRounded";
 const styles = theme => ({
   ...theme,
   userName: {
@@ -17,11 +20,10 @@ const styles = theme => ({
     marginLeft: 10
   },
   userAvatar: {
-    marginLeft: 10
+    // marginLeft: 10
   },
-  userLink: {
-    display: "flex",
-    alignItems: "center"
+  userInterface: {
+    display: "flex"
   }
 });
 
@@ -34,40 +36,41 @@ class LoggedInLinks extends Component {
   render() {
     const { classes, user } = this.props;
     return (
-      <>
-        {/* <Button
-          variant="outlined"
-          color="secondary"
-          className={classes.button}
-          component={Link}
-          to="/profile"
-        >
-          Profil
-        </Button> */}
-        <Button
-          variant="outlined"
-          color="secondary"
-          className={classes.button}
-          onClick={this.handleLogout}
-          component={Link}
-          to="/"
-        >
-          Wyloguj się
-        </Button>
+      <div className={classes.userInterface}>
         {user.details ? (
           <Link to="/profile" className={classes.userLink}>
-            <Avatar
-              src={user.details.imageUrl}
-              className={classes.userAvatar}
-            />
-            <Typography variant="subtitle1" className={classes.userName}>
-              {user.details.firstName} {user.details.lastName}
-            </Typography>
+            <Tooltip title="Profil">
+              <Avatar
+                src={user.details.imageUrl}
+                className={classes.userAvatar}
+              />
+            </Tooltip>
           </Link>
         ) : (
           <p style={{ color: "white" }}>Wczytywanie...</p>
         )}
-      </>
+        <Tooltip title="Powiadomienia">
+          <Button
+            variant="outlined"
+            color="secondary"
+            className={classes.button}
+          >
+            <Notifications />
+          </Button>
+        </Tooltip>
+        <Tooltip title="Wyloguj się">
+          <Button
+            variant="outlined"
+            color="secondary"
+            className={classes.button}
+            onClick={this.handleLogout}
+            component={Link}
+            to="/"
+          >
+            <Input />
+          </Button>
+        </Tooltip>
+      </div>
     );
   }
 }

@@ -20,7 +20,10 @@ export default {
     marginLeft: 10
   },
   toolbar: {
-    margin: "0 auto"
+    width: 768,
+    margin: "0 auto",
+    display: "flex",
+    justifyContent: "space-between"
   },
   loginLogo: {
     height: 200,

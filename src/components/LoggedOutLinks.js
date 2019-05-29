@@ -5,7 +5,10 @@ import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button/Button";
 
 const styles = theme => ({
-  ...theme
+  ...theme,
+  loggedOutWrapper: {
+    display: "flex"
+  }
 });
 
 class LoggedOutLinks extends Component {
@@ -13,7 +16,7 @@ class LoggedOutLinks extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <>
+      <div className={classes.loggedOutWrapper}>
         <Button
           variant="outlined"
           color="secondary"
@@ -32,7 +35,7 @@ class LoggedOutLinks extends Component {
         >
           Zarejestruj się
         </Button>
-      </>
+      </div>
     );
   }
 }

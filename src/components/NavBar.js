@@ -19,13 +19,27 @@ import Logo from "../assets/images/pet-logo-small.png";
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import ToolBar from "@material-ui/core/Toolbar/Toolbar";
 import Button from "@material-ui/core/Button/Button";
+import Tooltip from "@material-ui/core/Tooltip";
+import Grid from "@material-ui/core/Grid";
+//icon
+import Home from "@material-ui/icons/HomeRounded";
+import Search from "@material-ui/icons/Search";
+import AddCircle from "@material-ui/icons/AddCircleOutline";
 const styles = theme => ({
   ...theme,
   logo: {
     height: 80,
     width: 80
-    // position: "absolute",
-    // left: -80
+  },
+
+  userInterfaceGrid: {
+    flexBasis: 0
+  },
+  notLogged: {
+    justifyContent: "center",
+    width: 768,
+    margin: "0 auto",
+    display: "flex"
   }
 });
 const token = localStorage.FBIdToken;
@@ -45,18 +59,52 @@ class NavBar extends Component {
     const { classes, user } = this.props;
     return (
       <AppBar>
-        <ToolBar className={classes.toolbar}>
-          <img src={Logo} alt="MyPetLogo" className={classes.logo} />
-          <Button
-            variant="outlined"
-            color="secondary"
-            className={classes.button}
-            component={Link}
-            to="/"
+        <ToolBar className={user.auth ? classes.toolbar : classes.notLogged}>
+          <Grid item xs={user.auth ? 4 : 2}>
+            <img src={Logo} alt="MyPetLogo" className={classes.logo} />
+          </Grid>
+          <Grid item xs={user.auth ? 6 : 2}>
+            <Tooltip title="Strona główna">
+              <Button
+                variant="outlined"
+                color="secondary"
+                className={classes.button}
+                component={Link}
+                to="/"
+              >
+                <Home className={classes.icon} />
+              </Button>
+            </Tooltip>
+            {user.auth ? (
+              <>
+                <Tooltip title="Wyszukaj">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={classes.button}
+                  >
+                    <Search className={classes.icon} />
+                  </Button>
+                </Tooltip>
+                <Tooltip title="Dodaj cos tam nie wiem jeszcze co">
+                  <Button
+                    variant="outlined"
+                    color="secondary"
+                    className={classes.button}
+                  >
+                    <AddCircle className={classes.icon} />
+                  </Button>
+                </Tooltip>
+              </>
+            ) : null}
+          </Grid>
+          <Grid
+            item
+            xs={user.auth ? 6 : 8}
+            className={user.auth ? classes.userInterfaceGrid : null}
           >
-            Strona główna
-          </Button>
-          {user.auth ? <LoggedInLinks /> : <LoggedOutLinks />}
+            {user.auth ? <LoggedInLinks /> : <LoggedOutLinks />}
+          </Grid>
         </ToolBar>
       </AppBar>
     );
