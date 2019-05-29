@@ -15,8 +15,8 @@ import Grid from "@material-ui/core/Grid/Grid";
 const styles = theme => ({
   ...theme,
   cardUser: {
-    marginTop: 100,
-    width: "100%"
+    width: "70%",
+    margin: "100px auto 0"
   },
   navGrid: {
     borderRight: "1px solid rgba(0,0,0,0.2)"
@@ -27,28 +27,24 @@ const styles = theme => ({
 });
 
 class UserProfile extends Component {
-  state = {
-    profile: true,
-    settings: false
-  };
+  state = {};
 
   componentDidMount() {
-    this.props.getAuthUser();
+    // this.props.getAuthUser();
   }
   render() {
     const { classes, user } = this.props;
     if (!user.auth) {
       this.props.history.push("/login");
     }
-    console.log(this.props);
     return (
       <Card className={classes.cardUser}>
         <CardContent>
           <Grid container>
-            <Grid item xs={2} className={classes.navGrid}>
+            <Grid item xs={3} className={classes.navGrid}>
               <UserNav match={this.props.match} />
             </Grid>
-            <Grid item xs={10} className={classes.mainProfileContent}>
+            <Grid item xs={6} className={classes.mainProfileContent}>
               <Switch>
                 <Route path="/profile/password" exact component={Settings} />
                 <Route path="/profile" exact component={EditProfile} />

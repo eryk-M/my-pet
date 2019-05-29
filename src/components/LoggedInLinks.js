@@ -33,7 +33,6 @@ class LoggedInLinks extends Component {
   };
   render() {
     const { classes, user } = this.props;
-    console.log(user.details);
     return (
       <>
         {/* <Button
