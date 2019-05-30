@@ -9,7 +9,8 @@ import {
   LOADING_USER,
   POKA_ERRORA,
   EDIT_USER_SUCCESS,
-  CLEAR_ERRORS_MESSAGES
+  CLEAR_ERRORS_MESSAGES,
+  CHANGE_PASSWORD_SUCCESS
 } from "../types";
 
 import axios from "axios";
@@ -124,10 +125,11 @@ export const editUserDetails = details => dispatch => {
 //DO ZROBIENIAAAAAAAAAAAAAAAA
 
 export const changePassword = data => dispatch => {
+  dispatch({ type: LOADING_USER });
   axios
     .post("/changePassword", data)
-    .then(() => {
-      console.log("wszystko git");
+    .then(res => {
+      dispatch({ type: CHANGE_PASSWORD_SUCCESS, payload: res.data });
     })
     .catch(err => {
       console.log(err);

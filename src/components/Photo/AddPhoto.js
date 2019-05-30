@@ -56,7 +56,7 @@ class AddPhoto extends Component {
             className={classes.button}
             onClick={this.handleOpen}
           >
-            <AddCircle className={classes.icon} onClick={this.handleOpen} />
+            <AddCircle className={classes.icon} />
           </IconButton>
         </Tooltip>
         <Dialog open={this.state.open} onClose={this.handleClose}>

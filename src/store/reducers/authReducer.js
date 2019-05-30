@@ -9,7 +9,8 @@ import {
   LOADING_USER,
   POKA_ERRORA,
   EDIT_USER_SUCCESS,
-  CLEAR_ERRORS_MESSAGES
+  CLEAR_ERRORS_MESSAGES,
+  CHANGE_PASSWORD_SUCCESS
 } from "../types";
 
 const initialState = {
@@ -90,7 +91,13 @@ export default function(state = initialState, action) {
         errors: {},
         message: ""
       };
-
+    case CHANGE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        ...action.payload,
+        errors: {},
+        loading: false
+      };
     default:
       return state;
   }

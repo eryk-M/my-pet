@@ -93,3 +93,8 @@
   transform: translateX(-50%);
   top: 10px;
 }
+
+.form-password .lds-roller {
+  left: 50%;
+  transform: translateX(-50%);
+}
