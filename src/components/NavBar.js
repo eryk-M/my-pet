@@ -4,6 +4,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { connect } from "react-redux";
 import LoggedOutLinks from "./LoggedOutLinks";
 import LoggedInLinks from "./LoggedInLinks";
+import AddPhoto from "./Photo/AddPhoto";
 import {
   checkAuth,
   getAuthUser,
@@ -24,7 +25,6 @@ import Grid from "@material-ui/core/Grid";
 //icon
 import Home from "@material-ui/icons/HomeRounded";
 import Search from "@material-ui/icons/Search";
-import AddCircle from "@material-ui/icons/AddCircleOutline";
 const styles = theme => ({
   ...theme,
   logo: {
@@ -74,6 +74,7 @@ class NavBar extends Component {
                 <Home className={classes.icon} />
               </IconButton>
             </Tooltip>
+
             {user.auth ? (
               <>
                 <Tooltip title="Wyszukaj">
@@ -81,11 +82,7 @@ class NavBar extends Component {
                     <Search className={classes.icon} />
                   </IconButton>
                 </Tooltip>
-                <Tooltip title="Dodaj cos tam nie wiem jeszcze co">
-                  <IconButton color="secondary" className={classes.button}>
-                    <AddCircle className={classes.icon} />
-                  </IconButton>
-                </Tooltip>
+                <AddPhoto />
               </>
             ) : null}
           </Grid>
