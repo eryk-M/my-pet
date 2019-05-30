@@ -7,7 +7,9 @@ import {
   SET_AUTH,
   GET_AUTHENTICATED_USER,
   LOADING_USER,
-  POKA_ERRORA
+  POKA_ERRORA,
+  EDIT_USER_SUCCESS,
+  CLEAR_ERRORS_MESSAGES
 } from "../types";
 
 import axios from "axios";
@@ -87,6 +89,9 @@ export const logoutUser = () => dispatch => {
   delete axios.defaults.headers.common["Authorization"];
   dispatch({ type: LOGOUT_USER });
 };
+export const clearMessagesAndErrors = () => dispatch => {
+  dispatch({ type: CLEAR_ERRORS_MESSAGES });
+};
 
 const setAuthToken = token => {
   const FBIdToken = `Bearer ${token}`;
@@ -100,14 +105,18 @@ export const uploadImage = formData => dispatch => {
     .then(() => {
       dispatch(getAuthUser());
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      console.log(err);
+      dispatch({ type: POKA_ERRORA, payload: err.response.data });
+    });
 };
 
 export const editUserDetails = details => dispatch => {
   dispatch({ type: LOADING_USER });
   axios
     .post("/editUserDetails", details)
-    .then(() => {
+    .then(res => {
+      dispatch({ type: EDIT_USER_SUCCESS, payload: res.data });
       dispatch(getAuthUser());
     })
     .catch(err => console.log(err));

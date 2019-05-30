@@ -4,7 +4,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import {
   getAuthUser,
   uploadImage,
-  editUserDetails
+  editUserDetails,
+  clearMessagesAndErrors
 } from "../../store/actions/authActions";
 import Loader from "../../components/UI/Loader";
 //mui
@@ -40,7 +41,10 @@ const styles = theme => ({
   },
   bigAvatar: {
     width: 100,
-    height: 100
+    height: 100,
+    "&:hover": {
+      cursor: "pointer"
+    }
   }
 });
 
@@ -54,6 +58,7 @@ class EditProfile extends Component {
   };
 
   componentDidMount() {
+    this.props.clearMessagesAndErrors();
     this.props.getAuthUser();
   }
   componentWillReceiveProps(nextProps) {
@@ -95,12 +100,16 @@ class EditProfile extends Component {
     }
   };
   render() {
-    const { classes, user, loading } = this.props;
+    const { classes, user, loading, errors } = this.props;
     const { nickName, firstName, lastName, email, petName } = this.state;
     return (
       <Fragment>
         <div className={classes.avatarWrapper}>
-          <Avatar src={user.details.imageUrl} className={classes.bigAvatar} />
+          <Avatar
+            src={user.details.imageUrl}
+            className={classes.bigAvatar}
+            onClick={this.handleImageChange}
+          />
           <Typography
             component="span"
             color="secondary"
@@ -123,6 +132,8 @@ class EditProfile extends Component {
         >
           Zmień zdjęcie profilowe
         </Button>
+        {errors ? <p style={{ color: "red" }}>{errors.error}</p> : null}
+        {user.message ? <p style={{ color: "green" }}>{user.message}</p> : null}
         <div>
           <Typography className={classes.userInfo}>
             Pseudonim: {nickName}
@@ -133,7 +144,7 @@ class EditProfile extends Component {
         </div>
 
         <form noValidate onSubmit={this.handleFormSubmit} className="save-form">
-          {loading ? (
+          {loading && !errors.error ? (
             <Loader />
           ) : (
             <>
@@ -183,12 +194,14 @@ class EditProfile extends Component {
 
 const mapStateToProps = state => ({
   user: state.user,
-  loading: state.user.loading
+  loading: state.user.loading,
+  errors: state.user.errors
 });
 const mapDispatchToProps = {
   getAuthUser,
   uploadImage,
-  editUserDetails
+  editUserDetails,
+  clearMessagesAndErrors
 };
 export default connect(
   mapStateToProps,

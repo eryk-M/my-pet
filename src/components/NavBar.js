@@ -18,7 +18,7 @@ import Logo from "../assets/images/pet-logo-small.png";
 //MUI
 import AppBar from "@material-ui/core/AppBar/AppBar";
 import ToolBar from "@material-ui/core/Toolbar/Toolbar";
-import Button from "@material-ui/core/Button/Button";
+import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import Grid from "@material-ui/core/Grid";
 //icon
@@ -65,35 +65,26 @@ class NavBar extends Component {
           </Grid>
           <Grid item xs={user.auth ? 6 : 2}>
             <Tooltip title="Strona główna">
-              <Button
-                variant="outlined"
+              <IconButton
                 color="secondary"
                 className={classes.button}
                 component={Link}
                 to="/"
               >
                 <Home className={classes.icon} />
-              </Button>
+              </IconButton>
             </Tooltip>
             {user.auth ? (
               <>
                 <Tooltip title="Wyszukaj">
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    className={classes.button}
-                  >
+                  <IconButton color="secondary" className={classes.button}>
                     <Search className={classes.icon} />
-                  </Button>
+                  </IconButton>
                 </Tooltip>
                 <Tooltip title="Dodaj cos tam nie wiem jeszcze co">
-                  <Button
-                    variant="outlined"
-                    color="secondary"
-                    className={classes.button}
-                  >
+                  <IconButton color="secondary" className={classes.button}>
                     <AddCircle className={classes.icon} />
-                  </Button>
+                  </IconButton>
                 </Tooltip>
               </>
             ) : null}

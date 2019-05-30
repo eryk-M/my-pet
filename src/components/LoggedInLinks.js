@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import { logoutUser } from "../store/actions/authActions";
 //mui
-import Button from "@material-ui/core/Button/Button";
+import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar/Avatar";
 import Typography from "@material-ui/core/Typography/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
@@ -14,13 +14,10 @@ import Input from "@material-ui/icons/InputRounded";
 import Notifications from "@material-ui/icons/NotificationsRounded";
 const styles = theme => ({
   ...theme,
-  userName: {
-    color: "#fff",
-    textTransform: "capitalize",
-    marginLeft: 10
-  },
+
   userAvatar: {
-    // marginLeft: 10
+    marginRight: 5,
+    marginTop: 5
   },
   userInterface: {
     display: "flex"
@@ -50,17 +47,12 @@ class LoggedInLinks extends Component {
           <p style={{ color: "white" }}>Wczytywanie...</p>
         )}
         <Tooltip title="Powiadomienia">
-          <Button
-            variant="outlined"
-            color="secondary"
-            className={classes.button}
-          >
+          <IconButton color="secondary" className={classes.button}>
             <Notifications />
-          </Button>
+          </IconButton>
         </Tooltip>
         <Tooltip title="Wyloguj się">
-          <Button
-            variant="outlined"
+          <IconButton
             color="secondary"
             className={classes.button}
             onClick={this.handleLogout}
@@ -68,7 +60,7 @@ class LoggedInLinks extends Component {
             to="/"
           >
             <Input />
-          </Button>
+          </IconButton>
         </Tooltip>
       </div>
     );

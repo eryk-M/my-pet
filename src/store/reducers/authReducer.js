@@ -7,7 +7,9 @@ import {
   SET_AUTH,
   GET_AUTHENTICATED_USER,
   LOADING_USER,
-  POKA_ERRORA
+  POKA_ERRORA,
+  EDIT_USER_SUCCESS,
+  CLEAR_ERRORS_MESSAGES
 } from "../types";
 
 const initialState = {
@@ -15,7 +17,8 @@ const initialState = {
   loading: false,
   auth: false,
   errors: {},
-  details: {}
+  details: {},
+  message: ""
 };
 
 export default function(state = initialState, action) {
@@ -61,18 +64,33 @@ export default function(state = initialState, action) {
       return {
         ...state,
         ...action.payload,
-        loading: false
+        loading: false,
+        errors: {}
       };
     case LOADING_USER:
       return {
         ...state,
-        loading: true
+        loading: true,
+        errors: {}
       };
     case POKA_ERRORA:
       return {
         ...state,
-        errors: action.payload
+        errors: action.payload,
+        loading: false
       };
+    case EDIT_USER_SUCCESS:
+      return {
+        ...state,
+        ...action.payload
+      };
+    case CLEAR_ERRORS_MESSAGES:
+      return {
+        ...state,
+        errors: {},
+        message: ""
+      };
+
     default:
       return state;
   }

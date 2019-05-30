@@ -17,7 +17,7 @@ export default {
     useNextVariants: true
   },
   button: {
-    marginLeft: 10
+    marginLeft: 5
   },
   toolbar: {
     width: 768,
